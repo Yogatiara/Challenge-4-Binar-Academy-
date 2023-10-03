@@ -12,12 +12,12 @@ const Car = databaseConfig.sq.define(
     },
 
     car_name: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
 
     car_type: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

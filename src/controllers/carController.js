@@ -22,7 +22,7 @@ const insertCarData = async (req, res) => {
       res.status(200).json({
         status: 'Success',
         data: {
-          car: newCar,
+          newdata: newCar,
         },
       });
     })
@@ -33,4 +33,33 @@ const insertCarData = async (req, res) => {
       });
     });
 };
-export { getAllCars, insertCarData };
+
+const updateCarData = async (req, res) => {
+  const id_car = req.params.id_car;
+  const { car_name, car_type } = req.body;
+  await Car.update(
+    { car_name, car_type },
+    {
+      where: { id_car },
+      returning: true,
+      plain: true,
+    }
+  )
+    .then((carUpdate) => {
+      res.status(200).json({
+        status: 'Succes',
+        dataUpdate: { carUpdate },
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        status: 'Failed',
+        message: `Bad request : ${err}`,
+      });
+    });
+};
+export {
+  getAllCars,
+  insertCarData,
+  updateCarData,
+};
