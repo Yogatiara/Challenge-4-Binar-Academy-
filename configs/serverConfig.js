@@ -1,5 +1,5 @@
-import Dotenv from 'dotenv';
-Dotenv.config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const { PORT, HOST, HOST_URL } = process.env;
 
