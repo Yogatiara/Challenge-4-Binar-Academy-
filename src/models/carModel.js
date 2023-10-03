@@ -7,8 +7,8 @@ const Car = databaseConfig.sq.define(
   {
     id_car: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
 
     car_name: {

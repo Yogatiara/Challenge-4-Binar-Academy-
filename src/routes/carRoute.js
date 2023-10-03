@@ -1,9 +1,15 @@
 import { Router } from 'express';
 
-import { getAllCars } from '../controllers/carController.js';
+import {
+  getAllCars,
+  insertCarData,
+} from '../controllers/carController.js';
 
 const router = Router();
 
-router.get('/', getAllCars);
+router
+  .route('/')
+  .get(getAllCars)
+  .post(insertCarData);
 
 export default router;
