@@ -21,8 +21,4 @@ try {
   );
 }
 
-const databaseConfig = {
-  sq: sequelize,
-};
-
-export default databaseConfig;
+export default sequelize;

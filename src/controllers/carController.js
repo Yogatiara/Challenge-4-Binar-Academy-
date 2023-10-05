@@ -1,4 +1,8 @@
-import Car from '../models/carModel.js';
+import {
+  Car,
+  Rental,
+} from '../models/association.js';
+
 import filterData from '../helpers/filterCarHelper.js';
 
 const getCarData = async (req, res) => {
@@ -53,31 +57,40 @@ const getCarData = async (req, res) => {
       });
     }
   } else {
-    await Car.findAll()
-      .then((car) => {
-        res.status(200).json({
-          status: 'Success',
-          data: { car },
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({
-          status: 'Failed',
-          message: `Bad request : ${err.message}`,
-        });
+    try {
+      const rentalData = await Car.findAll({
+        include: Rental,
       });
+
+      console.log(rentalData);
+      res.status(200).json({
+        status: 'Success',
+        data: { ...rentalData },
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: 'Failed',
+        message: `Bad request : ${err.message}`,
+      });
+    }
   }
 };
 
-const insertCarData = (req, res) => {
+const insertCarData = async (req, res) => {
   try {
-    const newCar = Car.create(req.body);
+    const newDataCar = await Car.create({
+      ...req.body,
+    });
+    const newRental = await Rental.create({
+      price: req.body.price,
+      id_car: newDataCar.id_car,
+    });
 
     res.status(200).json({
       status: 'Success',
       message: `Data added successfully`,
       data: {
-        newdata: newCar,
+        newdata: { newDataCar, newRental },
       },
     });
   } catch (err) {
@@ -88,27 +101,52 @@ const insertCarData = (req, res) => {
   }
 };
 
-const updateCarData = (req, res) => {
+const updateCarData = async (req, res) => {
   try {
     const { id_car } = req.params;
-    const { car_name, car_type } = req.body;
-    const carUpdate = Car.update(
-      { car_name, car_type },
+    const {
+      car_name,
+      car_type,
+      car_size,
+      photo_path,
+      price,
+    } = req.body;
+
+    const carUpdate = await Car.update(
+      {
+        car_name,
+        car_type,
+        car_size,
+        photo_path,
+        price,
+      },
       {
         where: { id_car },
         returning: true,
         plain: true,
       }
     );
+
+    const rentalUpdate = await Rental.update(
+      {
+        price,
+      },
+      {
+        where: { id_car },
+        returning: true,
+        plain: true,
+      }
+    );
+
     res.status(200).json({
       status: 'Succes',
       message: `Data with id : ${id_car} updated successfully`,
-      dataUpdate: { carUpdate },
+      dataUpdate: { carUpdate, rentalUpdate },
     });
   } catch (err) {
     res.status(400).json({
       status: 'Failed',
-      message: `Bad request : ${err}`,
+      message: `Bad request : ${err.message}`,
     });
   }
 };
@@ -121,6 +159,16 @@ const deleteCarData = async (req, res) => {
       returning: true,
       plain: true,
     });
+    const existingCar = await Car.findByPk(
+      id_car
+    );
+
+    if (!existingCar) {
+      throw new Error(
+        `Data with id: ${id_car} not found`
+      );
+    }
+
     res.status(200).json({
       status: 'success',
       message: `Data with id: ${id_car} deleted successfully`,
@@ -129,7 +177,7 @@ const deleteCarData = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'Failed',
-      message: `Bad request : ${err}`,
+      message: `Bad request : ${err.message}`,
     });
   }
 };

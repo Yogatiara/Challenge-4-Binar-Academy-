@@ -1,11 +1,9 @@
 import { Router } from 'express';
 
 import {
-  // getAllCars,
   insertCarData,
   updateCarData,
   deleteCarData,
-  // getCarByQuery,
   getCarData,
 } from '../controllers/carController.js';
 

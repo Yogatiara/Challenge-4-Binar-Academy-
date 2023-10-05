@@ -5,12 +5,15 @@ import { fileURLToPath } from 'url';
 
 import requestTime from './middlewares/requestTimeMiddleware.js';
 import carRouter from './routes/carRoute.js';
-import databaseConfig from '../configs/databaseConfig.js';
+import sequalize from '../configs/databaseConfig.js';
 
 const app = express();
-// databaseConfig.sq.sync();
+// sequalize.sync();
+// sequalize.drop();
+
 app.use(express.json());
 app.use(requestTime);
+app.use(morgan('dev'));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

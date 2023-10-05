@@ -1,9 +1,9 @@
 import DataTypes from 'sequelize';
 
-import databaseConfig from '../../configs/databaseConfig.js';
+import sequalize from '../../configs/databaseConfig.js';
 
-const Car = databaseConfig.sq.define(
-  'car',
+const Car = sequalize.define(
+  'Car',
   {
     id_car: {
       type: DataTypes.INTEGER,
@@ -20,9 +20,23 @@ const Car = databaseConfig.sq.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+
+    car_size: {
+      type: DataTypes.ENUM([
+        'All',
+        'Small',
+        'Medium',
+        'Large',
+      ]),
+      defaultValue: 'All',
+    },
+
+    photo_path: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
-    timestamps: false,
     freezeTableName: true,
   }
 );

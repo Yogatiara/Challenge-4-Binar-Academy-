@@ -1,4 +1,7 @@
-import Car from '../models/carModel.js';
+import {
+  Car,
+  Rental,
+} from '../models/association.js';
 
 const filterData = async (...req) => {
   const [carName, carType] = req;
@@ -19,7 +22,7 @@ const filterData = async (...req) => {
   });
 
   if (!carData) {
-    throw new Error('Car data is not avaible');
+    throw new Error('Car data is not available!');
   } else {
     return carData;
   }
