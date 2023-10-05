@@ -1,18 +1,24 @@
 import { Router } from 'express';
 
 import {
-  getAllCars,
+  // getAllCars,
   insertCarData,
   updateCarData,
+  deleteCarData,
+  // getCarByQuery,
+  getCarData,
 } from '../controllers/carController.js';
 
 const router = Router();
 
 router
   .route('/')
-  .get(getAllCars)
+  .get(getCarData)
   .post(insertCarData);
 
-router.route('/:id_car').put(updateCarData);
+router
+  .route('/:id_car')
+  .put(updateCarData)
+  .delete(deleteCarData);
 
 export default router;

@@ -5,10 +5,10 @@ import { fileURLToPath } from 'url';
 
 import requestTime from './middlewares/requestTimeMiddleware.js';
 import carRouter from './routes/carRoute.js';
+import databaseConfig from '../configs/databaseConfig.js';
 
 const app = express();
-
-app.use(morgan('dev'));
+// databaseConfig.sq.sync();
 app.use(express.json());
 app.use(requestTime);
 
