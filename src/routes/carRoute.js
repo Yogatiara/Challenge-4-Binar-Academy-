@@ -9,10 +9,9 @@ import {
 
 const router = Router();
 
-router
-  .route('/')
-  .get(getCarData)
-  .post(insertCarData);
+router.route('/').get(getCarData);
+
+router.route('/create').post(insertCarData);
 
 router
   .route('/:id_car')

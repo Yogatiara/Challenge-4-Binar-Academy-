@@ -6,73 +6,80 @@ import {
 import filterData from '../helpers/filterCarHelper.js';
 
 const getCarData = async (req, res) => {
-  const { carName, carType } = req.query;
-  if (carName && carType) {
-    try {
-      const carData = await filterData(
-        carName,
-        carType
-      );
+  try {
+    const { carName, carType } = req.query;
 
-      res.status(200).json({
-        status: 'success',
-        data: {
-          carData,
-        },
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: 'Failed',
-        message: `Bad request ${err}`,
-      });
-    }
-  } else if (carName) {
-    try {
-      const carData = await filterData(carName);
-      res.status(200).json({
-        status: 'success',
-        data: {
-          carData,
-        },
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: 'Failed',
-        message: `Bad request : ${err.message}`,
-      });
-    }
-  } else if (carType) {
-    try {
-      const carData = await filterData(carType);
-      res.status(200).json({
-        status: 'success',
-        data: {
-          carData,
-        },
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: 'Failed',
-        message: `Bad request : ${err.message}`,
-      });
-    }
-  } else {
-    try {
-      const rentalData = await Car.findAll({
-        include: Rental,
-      });
+    if (carName && carType) {
+      try {
+        const carData = await filterData(
+          carName,
+          carType
+        );
 
-      console.log(rentalData);
-      res.status(200).json({
-        status: 'Success',
-        data: { ...rentalData },
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: 'Failed',
-        message: `Bad request : ${err.message}`,
-      });
+        res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
+        });
+      } catch (err) {
+        res.status(400).json({
+          status: 'Failed',
+          message: `Bad request ${err}`,
+        });
+      }
+    } else if (carName) {
+      try {
+        const carData = await filterData(carName);
+        res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
+        });
+      } catch (err) {
+        res.status(400).json({
+          status: 'Failed',
+          message: `Bad request : ${err.message}`,
+        });
+      }
+    } else if (carType) {
+      try {
+        const carData = await filterData(carType);
+        res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
+        });
+      } catch (err) {
+        res.status(400).json({
+          status: 'Failed',
+          message: `Bad request : ${err.message}`,
+        });
+      }
+    } else {
+      try {
+        const rentalData = await Car.findAll({
+          include: Rental,
+        });
+
+        res.render('index.ejs', {
+          rentalData,
+        });
+        // res
+      } catch (err) {
+        res.status(400).json({
+          status: 'Failed',
+          message: `Bad request : ${err.message}`,
+        });
+      }
     }
+  } catch (err) {
+    res.status(400).json({
+      status: 'Failed',
+      message: `Bad request : ${err.message}`,
+    });
   }
 };
 
@@ -86,13 +93,14 @@ const insertCarData = async (req, res) => {
       id_car: newDataCar.id_car,
     });
 
-    res.status(200).json({
-      status: 'Success',
-      message: `Data added successfully`,
-      data: {
-        newdata: { newDataCar, newRental },
-      },
-    });
+    // res.status(200).json({
+    //   status: 'Success',
+    //   message: `Data added successfully`,
+    //   data: {
+    //     newdata: { newDataCar, newRental },
+    //   },
+    // });
+    res.render('edit.ejs');
   } catch (err) {
     res.status(400).json({
       status: 'Failed',

@@ -14,10 +14,15 @@ const app = express();
 app.use(express.json());
 app.use(requestTime);
 app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: true }));
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(dirname(__filename));
+const __dirname_ = dirname(__filename);
+
 app.use(express.static(`${__dirname}/public`));
+app.set('views', __dirname_ + '/views');
+app.set('view engine', 'ejs');
 
 app.use('/dashboard', carRouter);
 export default app;
