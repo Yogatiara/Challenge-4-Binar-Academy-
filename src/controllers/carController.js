@@ -1,3 +1,6 @@
+import { Router } from 'express';
+const router = Router();
+
 import {
   Car,
   Rental,
@@ -6,22 +9,29 @@ import {
 import filterData from '../helpers/filterCarHelper.js';
 
 const getCarData = async (req, res) => {
+  // console.log(req.query.carType);
   try {
-    const { carName, carType } = req.query;
+    const { carName, carType, carSize } =
+      req.query;
 
     if (carName && carType) {
       try {
-        const carData = await filterData(
-          carName,
-          carType
-        );
+        const arg = {
+          carType: carType,
+          carName: carName,
+        };
+        const carData = await filterData(arg);
 
-        res.status(200).json({
-          status: 'success',
-          data: {
-            carData,
-          },
-        });
+        if (req.url === 'api/v1/car') {
+          res.status(200).json({
+            status: 'success',
+            data: {
+              carData,
+            },
+          });
+        }
+        const carArray = [carData];
+        return carArray;
       } catch (err) {
         res.status(400).json({
           status: 'Failed',
@@ -29,14 +39,22 @@ const getCarData = async (req, res) => {
         });
       }
     } else if (carName) {
+      console.log(carName);
       try {
-        const carData = await filterData(carName);
-        res.status(200).json({
-          status: 'success',
-          data: {
-            carData,
-          },
-        });
+        const arg = {
+          carName: carName,
+        };
+        const carData = await filterData(arg);
+        if (req.url == 'api/v1/car') {
+          res.status(200).json({
+            status: 'success',
+            data: {
+              carData,
+            },
+          });
+        }
+        const carArray = [carData];
+        return carArray;
       } catch (err) {
         res.status(400).json({
           status: 'Failed',
@@ -44,14 +62,43 @@ const getCarData = async (req, res) => {
         });
       }
     } else if (carType) {
+      console.log(carType);
+
       try {
-        const carData = await filterData(carType);
-        res.status(200).json({
-          status: 'success',
-          data: {
-            carData,
-          },
+        const arg = {
+          carType: carType,
+        };
+        const carData = await filterData(arg);
+
+        if (req.url === 'api/v1/car') {
+          res.status(200).json({
+            status: 'success',
+            data: {
+              carData,
+            },
+          });
+        }
+        const carArray = [carData];
+        return carArray;
+      } catch (err) {
+        res.status(400).json({
+          status: 'Failed',
+          message: `Bad request : ${err.message}`,
         });
+      }
+    } else if (carSize) {
+      try {
+        const carData = await filterData(carSize);
+        // if (req.url === '/') {
+        //   return carData;
+        // } else if ('/api/v1/car') {
+        //   res.status(200).json({
+        //     status: 'success',
+        //     data: {
+        //       carData,
+        //     },
+        //   });
+        // }
       } catch (err) {
         res.status(400).json({
           status: 'Failed',
@@ -60,14 +107,20 @@ const getCarData = async (req, res) => {
       }
     } else {
       try {
-        const rentalData = await Car.findAll({
+        const carData = await Car.findAll({
           include: Rental,
         });
 
-        res.render('index.ejs', {
-          rentalData,
-        });
-        // res
+        if (req.url === '/') {
+          return carData;
+        } else if ('/api/v1/car') {
+          res.status(200).json({
+            status: 'success',
+            data: {
+              carData,
+            },
+          });
+        }
       } catch (err) {
         res.status(400).json({
           status: 'Failed',
@@ -93,13 +146,13 @@ const insertCarData = async (req, res) => {
       id_car: newDataCar.id_car,
     });
 
-    // res.status(200).json({
-    //   status: 'Success',
-    //   message: `Data added successfully`,
-    //   data: {
-    //     newdata: { newDataCar, newRental },
-    //   },
-    // });
+    res.status(200).json({
+      status: 'Success',
+      message: `Data added successfully`,
+      data: {
+        newdata: { newDataCar, newRental },
+      },
+    });
     res.render('edit.ejs');
   } catch (err) {
     res.status(400).json({

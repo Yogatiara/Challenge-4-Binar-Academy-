@@ -9,12 +9,14 @@ import {
 
 const router = Router();
 
-router.route('/').get(getCarData);
-
-router.route('/create').post(insertCarData);
+router.route('/v1/car').get(getCarData);
 
 router
-  .route('/:id_car')
+  .route('/v1/car/create')
+  .post(insertCarData);
+
+router
+  .route('/v1/car/:id_car')
   .put(updateCarData)
   .delete(deleteCarData);
 
