@@ -9,130 +9,96 @@ import {
 import filterData from '../helpers/filterCarHelper.js';
 
 const getCarData = async (req, res) => {
-  // console.log(req.query.carType);
   try {
     const { carName, carType, carSize } =
       req.query;
 
-    if (carName && carType) {
-      try {
-        const arg = {
-          carType: carType,
-          carName: carName,
-        };
-        const carData = await filterData(arg);
+    if (carSize) {
+      const arg = {
+        carSize: carSize,
+      };
+      const carData = await filterData(arg);
 
-        if (req.url === 'api/v1/car') {
-          res.status(200).json({
-            status: 'success',
-            data: {
-              carData,
-            },
-          });
-        }
-        const carArray = [carData];
-        return carArray;
-      } catch (err) {
-        res.status(400).json({
-          status: 'Failed',
-          message: `Bad request ${err}`,
+      if (req.url === 'api/v1/car') {
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
         });
       }
+
+      const carArray = [carData];
+      return carArray;
+    } else if (carName && carType) {
+      const arg = {
+        carType: carType,
+        carName: carName,
+      };
+      const carData = await filterData(arg);
+
+      if (req.url === 'api/v1/car') {
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
+        });
+      }
+      const carArray = [carData];
+      return carArray;
     } else if (carName) {
       console.log(carName);
-      try {
-        const arg = {
-          carName: carName,
-        };
-        const carData = await filterData(arg);
-        if (req.url == 'api/v1/car') {
-          res.status(200).json({
-            status: 'success',
-            data: {
-              carData,
-            },
-          });
-        }
-        const carArray = [carData];
-        return carArray;
-      } catch (err) {
-        res.status(400).json({
-          status: 'Failed',
-          message: `Bad request : ${err.message}`,
+
+      const arg = {
+        carName: carName,
+      };
+      const carData = await filterData(arg);
+      if (req.url == 'api/v1/car') {
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
         });
       }
+      const carArray = [carData];
+      return carArray;
     } else if (carType) {
       console.log(carType);
+      const arg = {
+        carType: carType,
+      };
+      const carData = await filterData(arg);
 
-      try {
-        const arg = {
-          carType: carType,
-        };
-        const carData = await filterData(arg);
-
-        if (req.url === 'api/v1/car') {
-          res.status(200).json({
-            status: 'success',
-            data: {
-              carData,
-            },
-          });
-        }
-        const carArray = [carData];
-        return carArray;
-      } catch (err) {
-        res.status(400).json({
-          status: 'Failed',
-          message: `Bad request : ${err.message}`,
+      if (req.url === 'api/v1/car') {
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
         });
       }
-    } else if (carSize) {
-      try {
-        const carData = await filterData(carSize);
-        // if (req.url === '/') {
-        //   return carData;
-        // } else if ('/api/v1/car') {
-        //   res.status(200).json({
-        //     status: 'success',
-        //     data: {
-        //       carData,
-        //     },
-        //   });
-        // }
-      } catch (err) {
-        res.status(400).json({
-          status: 'Failed',
-          message: `Bad request : ${err.message}`,
-        });
-      }
+      const carArray = [carData];
+      return carArray;
     } else {
-      try {
-        const carData = await Car.findAll({
-          include: Rental,
-        });
+      const carData = await Car.findAll({
+        include: Rental,
+      });
 
-        if (req.url === '/') {
-          return carData;
-        } else if ('/api/v1/car') {
-          res.status(200).json({
-            status: 'success',
-            data: {
-              carData,
-            },
-          });
-        }
-      } catch (err) {
-        res.status(400).json({
-          status: 'Failed',
-          message: `Bad request : ${err.message}`,
+      if (req.url === '/') {
+        return carData;
+      } else if ('/api/v1/car') {
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            carData,
+          },
         });
       }
     }
   } catch (err) {
-    res.status(400).json({
-      status: 'Failed',
-      message: `Bad request : ${err.message}`,
-    });
+    res.render('carNotFound.ejs');
   }
 };
 

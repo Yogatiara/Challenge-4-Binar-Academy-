@@ -42,9 +42,9 @@
                                 </li>
                             </ul>
                             <div class="d-flex gap-2">
-                              <a href="http://localhost:3000/dashboard" class="my-auto">
-                                <button class="btn btn-outline-success" type="submit">clear</button>
-                              </a>
+                                <a href="http://localhost:5000/dashboard" class="my-auto">
+                                  <button class="btn btn-outline-success" type="submit">clear</button>
+                                </a>
                                 <form class="d-flex gap-3" role="search">
                                 
                                 
@@ -109,6 +109,12 @@
                                 <a class="btn btn__primary" href="/dashboard/create"> <img src="images/fi_plus.png" alt=""> Add New Car</a>
                             </div>
                             <!-- car size -->
+                            <div class="d-flex button__group">
+                              <a href="/dashboard" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/dashboard' ? 'active' : '') %> me-3">All</a>
+                              <a href="?carSize=Small" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Small' ? 'value=small name=carSize' : '') %> me-3">Small</a>
+                              <a href="?carSize=Medium" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Medium' ? 'value=medium name=carSize' : '') %>  me-3">Medium</a>
+                              <a href="?carSize=Large" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Large' ? 'value=large name=carSize' : '') %>  me-3">Large</a>
+                          </div>
                    
 
                       
