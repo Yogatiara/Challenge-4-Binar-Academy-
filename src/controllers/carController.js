@@ -1,6 +1,3 @@
-import { Router } from 'express';
-const router = Router();
-
 import {
   Car,
   Rental,
@@ -104,11 +101,21 @@ const getCarData = async (req, res) => {
 
 const insertCarData = async (req, res) => {
   try {
+    const {
+      carName,
+      carType,
+      price,
+      carSize,
+      photoPath,
+    } = req.query;
     const newDataCar = await Car.create({
-      ...req.body,
+      car_name: carName,
+      car_type: carType,
+      car_size: carSize,
+      photo_path: photoPath,
     });
     const newRental = await Rental.create({
-      price: req.body.price,
+      price: price,
       id_car: newDataCar.id_car,
     });
 
@@ -119,7 +126,6 @@ const insertCarData = async (req, res) => {
         newdata: { newDataCar, newRental },
       },
     });
-    res.render('edit.ejs');
   } catch (err) {
     res.status(400).json({
       status: 'Failed',
@@ -190,11 +196,11 @@ const deleteCarData = async (req, res) => {
       id_car
     );
 
-    if (!existingCar) {
-      throw new Error(
-        `Data with id: ${id_car} not found`
-      );
-    }
+    // if (!existingCar) {
+    //   throw new Error(
+    //     `Data with id: ${id_car} not found`
+    //   );
+    // }
 
     res.status(200).json({
       status: 'success',

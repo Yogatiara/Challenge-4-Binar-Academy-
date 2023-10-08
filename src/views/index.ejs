@@ -111,9 +111,9 @@
                             <!-- car size -->
                             <div class="d-flex button__group">
                               <a href="/dashboard" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/dashboard' ? 'active' : '') %> me-3">All</a>
-                              <a href="?carSize=Small" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Small' ? 'value=small name=carSize' : '') %> me-3">Small</a>
-                              <a href="?carSize=Medium" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Medium' ? 'value=medium name=carSize' : '') %>  me-3">Medium</a>
-                              <a href="?carSize=Large" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Large' ? 'value=large name=carSize' : '') %>  me-3">Large</a>
+                              <a href="?carSize=Small" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Small' ? 'value=Small name=carSize' : '') %> me-3">Small</a>
+                              <a href="?carSize=Medium" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Medium' ? 'value=Medium name=carSize' : '') %>  me-3">Medium</a>
+                              <a href="?carSize=Large" class="btn button__secondary <%= (fullUrl === 'http://localhost:5000/?carSize=Large' ? 'value=Large name=carSize' : '') %>  me-3">Large</a>
                           </div>
                    
 
@@ -121,8 +121,8 @@
 
                             <div class="row mt-4">
                               <% rentalData.map((car) => { %>
-                              <div class="col-lg-4 my-2">
-                                
+                              <div  class="col-lg-4 my-2">
+
                                   <div class="card px-2 py-4">
                                       <img height="222px" src="" class="card-img-top text-center" style="aspect-ratio: 2/1; object-fit: contain;">
                                       
